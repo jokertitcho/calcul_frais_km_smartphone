@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="frais.css" />
+    <title>Frais kilometrique</title>
+    <style>
+      #infoVehicule {
+        display: flex;
+      }
+      #plieu {
+        font-size: x-large;
+      }
+      #tableauxFraisKm,
+      th,
+      td {
+        border: 1px solid black;
+        padding: 0.5em;
+        width: 20rem;
+        height: 1rem;
+        border-radius: 0.2em;
+      }
+      thead {
+        background: #e2e2de;
+        color: red;
+      }
+      #tableauxFraisKm {
+        box-shadow: -3px 3px 12px;
+      }
+      #cv-select,
+      #type-select {
+        margin-top: 2em;
+        margin-right: 2em;
+        margin-bottom: 2em;
+      }
+      #cv-select {
+        font-size: medium;
+        height: 2em;
+      }
+
+      #btnLieux {
+        height: 2.5em;
+        font-size: large;
+        background: #e2e2de;
+
+        border: none;
+        border-radius: 1em;
+        -webkit-transition: background-color 250ms ease-out;
+        -moz-transition: background-color 250ms ease-out;
+        -o-transition: background-color 250ms ease-out;
+        transition: background-color 250ms ease-out;
+      }
+      #lieux {
+        width: 25em;
+        height: 35em;
+        border: 1px solid black;
+        border-radius: 1em;
+        position: relative;
+        background: white;
+        padding: 1em;
+        left: 35%;
+        top: 4em;
+        box-shadow: 2px 3px 10px black;
+      }
+      #flou {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(15px);
+        transform: translateY(-2000px);
+        transition: 1s ease;
+      }
+      .batterie1,
+      .batterie2,
+      .batterie3 {
+        position: relative;
+        width: 0.8em;
+        background: var(--fond);
+        color: var(--fond);
+      }
+
+      .batterie1 {
+        top: -1.8em;
+        rotate: 22deg;
+        left: 1em;
+        height: 5vh;
+      }
+      .batterie2 {
+        top: -11vh;
+        rotate: 22deg;
+        left: 2.4em;
+        height: 5vh;
+      }
+      .batterie3 {
+        top: -15.8vh;
+        rotate: 22deg;
+        left: 3.8em;
+        height: 5vh;
+      }
+
+      .ligneLieu {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1em;
+      }
+      #closeCroix {
+        display: flex;
+        justify-content: end;
+        margin-bottom: 0.5em;
+      }
+      #close {
+        border-radius: 50%;
+        background: red;
+        color: white;
+      }
+      #prise {
+        width: 1em;
+      }
+
+      #btnLieux:active {
+        background: #e2e2de;
+
+        border-width: 2px;
+        position: relative;
+        top: 2px;
+      }
+      .km-parcourus {
+        font-size: 1.5em;
+        width: 70%;
+        margin-left: 0;
+      }
+      #km-progress {
+        margin-left: 1em;
+      }
+      .kmEnCours {
+        margin-left: 2em;
+      }
+      legend {
+        color: red;
+      }
+      fieldset {
+        border-radius: 1em;
+      }
+      .lieu-preselect {
+        display: flex;
+        height: 2em;
+      }
+      .inject-lieu {
+        font-size: medium;
+        font-weight: 600;
+        min-width: 5em;
+        height: 2em;
+        margin-right: 0.5em;
+        border-radius: 0.5em;
+        margin-bottom: 1em;
+      }
+      .inject-lieu:active {
+        position: relative;
+        top: 2px;
+      }
+      #depart {
+        height: 2em;
+        font-size: x-large;
+        word-spacing: 2rem;
+      }
+      .inject-Traj {
+        display: flex;
+        background: none;
+        justify-content: space-around;
+        align-items: center;
+        height: 2em;
+      }
+      #km-progress {
+        height: 2em;
+      }
+      #remboursement {
+        display: flex;
+        justify-content: space-around;
+        font-size: 1.5em;
+      }
+      #votreVehicule {
+        font-size: 0.8em;
+        display: flex;
+        margin-top: 2em;
+        background: rgb(102, 172, 242);
+        color: aliceblue;
+        height: 2em;
+        justify-content: center;
+        align-items: center;
+        width: 95%;
+      }
+      /* -----------------------------------------------------media querie smartphone------------------------------------------------------------------*/
+
+      @media screen and (max-width: 450px) {
+        :root {
+          --key-width: 40%;
+
+          --key-hue: 0;
+          --key-saturation: 0%;
+          --key-lightness: 100%;
+          --key-color: hsl(
+            var(--key-hue),
+            var(--key-saturation),
+            var(--key-lightness)
+          );
+        }
+        html {
+          width: 100%;
+        }
+        body {
+          --fond: #e2e2de;
+          display: block;
+          overflow-x: none !important;
+          margin-left: auto;
+          margin-right: auto;
+          width: 100%;
+          height: 100vh;
+        }
+
+        header {
+          background: var(--fond);
+          text-align: center;
+          text-decoration: none;
+
+          width: 100%;
+          margin-top: -2%;
+          height: 15.4vh;
+
+          padding-top: 1em;
+          z-index: 2;
+        }
+        h1 {
+          padding-top: 2%;
+          border-radius: 50px;
+          background: #e0e0e0;
+          box-shadow: rgb(56, 57, 58, 0.5) 3px 3px 6px 0px inset,
+            rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+          border-radius: 10em;
+          height: 10vh;
+          width: 80%;
+          color: red;
+          margin-left: 10%;
+          text-shadow: -1px -1px black;
+        }
+        nav {
+          width: 100%;
+          background: #e2e2de;
+          padding-top: 0.5em;
+        }
+        main {
+          background: #e2e2de;
+          width: 100%;
+          height: 45vh;
+        }
+        aside {
+          position: relative;
+
+          bottom: -4.8vh;
+        }
+        .inject-lieu {
+          z-index: 3;
+          padding: 0.5em;
+          text-align: center;
+          border: none;
+          font-size: medium;
+          width: 10em;
+          min-height: 3em;
+          margin-right: 0.5em;
+          margin-bottom: 1em;
+          width: calc(var(--key-width) * 1);
+          height: calc(var(--key-width) * 1);
+          background-color: hsl(
+            var(--key-hue),
+            var(--key-saturation),
+            var(--key-lightness)
+          );
+          border-width: 8px;
+          border-style: solid;
+          border-top-color: hsl(var(--key-hue), var(--key-saturation), 90%);
+          border-right-color: hsl(var(--key-hue), var(--key-saturation), 80%);
+          border-bottom-color: hsl(var(--key-hue), var(--key-saturation), 60%);
+          border-left-color: hsl(var(--key-hue), var(--key-saturation), 70%);
+          border-radius: 6px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          padding-top: 0.3em;
+          box-sizing: border-box;
+          cursor: pointer;
+          transition: 0.1s ease transition;
+          backface-visibility: hidden;
+          box-shadow: 2px 2px 8px black;
+        }
+        @font-face {
+          font-family: "Regular";
+          src: url("./PressStart2P-Regular.ttf");
+          font-style: normal;
+          font-weight: normal;
+          src: local("DS-Digital Bold"), url("DS-DIGIB.TTF") format("truetype");
+        }
+        .calendrier {
+          position: relative;
+          bottom: -9em;
+          left: 22%;
+          font-family: Arial, Helvetica, sans-serif;
+          width: calc(var(--key-width) * 1);
+          height: calc(var(--key-width) * 1);
+          background-color: hsl(
+            var(--key-hue),
+            var(--key-saturation),
+            var(--key-lightness)
+          );
+          border-width: 8px;
+          border-style: solid;
+          border-top-color: hsl(var(--key-hue), var(--key-saturation), 90%);
+          border-right-color: hsl(var(--key-hue), var(--key-saturation), 80%);
+          border-bottom-color: hsl(var(--key-hue), var(--key-saturation), 60%);
+          border-left-color: hsl(var(--key-hue), var(--key-saturation), 70%);
+        }
+        #trajet {
+          box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset,
+            rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+          background-image: linear-gradient(180deg, #9aa38f, #8d9781);
+
+          border-radius: 0.5rem;
+          border-top: grey 1rem solid;
+          border-right: rgb(137, 137, 137) 1rem solid;
+          border-left: rgb(186, 185, 185) 1rem solid;
+          border-bottom: lightgray 1rem solid;
+          text-shadow: 5px 2px 2px rgba(22, 22, 22, 0.3);
+          font-family: "Regular", sans-serif;
+        }
+        /* faire un checkbox en bouton qui coulisse  */
+        .lieu-select {
+          --border: blue;
+          --cursor: grey;
+          --checked: red;
+          --checked-cursor: white;
+          font-size: 78%;
+          text-align: left;
+          border-radius: 1.25px;
+          background-image: radial-gradient(
+              #3b3038 48%,
+              #574d4b 50%,
+              transparent 65%
+            ),
+            radial-gradient(#2e232b 40%, #524846 48%, transparent 65%),
+            linear-gradient(
+              #a29899,
+              #c1b7b5,
+              #c5bbb9,
+              #c8bebc 26%,
+              #aaa09e 28%,
+              /* End highlight */ #a19d92 36%,
+              /* start key */ #a19c98,
+              #9d9990 77%,
+              /* end key */ #65605c 81%,
+              /* start shadow */ #393335
+            );
+          background-size: 21px 97px, 27px 90px, 100% 100%;
+          background-position: calc(98% + 16px) -10px, -18px -10px, top left;
+          background-repeat: no-repeat;
+          box-shadow: 3px 10px 12px -3px rgba(0, 0, 0, 0.45),
+            2px 20px 14px -2px rgba(0, 0, 0, 0.2), 0 0 1px 0.25px #383129,
+            0.5px 0 1px -0.25px #453d3a inset,
+            0 -1.25px 1.5px -0.75px #22171b inset,
+            0 1px 1.25px -0.75px #aea4a3 inset;
+          width: 49.8%;
+          height: 8vh;
+          left: 0;
+          box-shadow: 3px 10px 12px -3px rgba(0, 0, 0, 0.5),
+            2px 20px 12px -2px rgba(0, 0, 0, 0.25);
+        }
+        .lieu-select:active {
+          text-align: left;
+          border-radius: 1.25px;
+          background-image: radial-gradient(
+              #3b3038 48%,
+              #574d4b 50%,
+              transparent 65%
+            ),
+            radial-gradient(#2e232b 40%, #524846 48%, transparent 65%),
+            linear-gradient(
+              #a29899,
+              #c1b7b5,
+              #c5bbb9,
+              #c8bebc 26%,
+              #aaa09e 28%,
+              /* End highlight */ #a19d92 36%,
+              /* start key */ #a19c98,
+              #9d9990 77%,
+              /* end key */ #65605c 81%,
+              /* start shadow */ #393335
+            );
+          background-size: 21px 97px, 27px 90px, 100% 100%;
+          background-position: calc(98% + 16px) -10px, -18px -10px, top left;
+          background-repeat: no-repeat;
+          box-shadow: 3px 10px 12px -3px rgba(0, 0, 0, 0.45),
+            2px 20px 14px -2px rgba(0, 0, 0, 0.2), 0 0 1px 0.25px #383129,
+            0.5px 0 1px -0.25px #453d3a inset,
+            0 -1.25px 1.5px -0.75px #22171b inset,
+            0 1px 1.25px -0.75px #aea4a3 inset;
+          width: 49.5%;
+          height: 7.8vh;
+          left: 0;
+          box-shadow: 3px 10px 12px -3px rgba(0, 0, 0, 0.5),
+            2px 20px 12px -2px rgba(0, 0, 0, 0.25);
+        }
+        .lieu-select > input {
+          visibility: hidden;
+        }
+        .lieu-select > label:active {
+          position: relative;
+          bottom: -38%;
+          left: 0;
+          width: 30%;
+        }
+
+        .lieu-select label {
+          font-size: 1em;
+          position: relative;
+          bottom: -37%;
+          color: black;
+        }
+        .lieu-select label::before,
+        .lieu-select label::after {
+          content: "";
+          display: block;
+          text-align: center;
+          margin-top: -22%;
+        }
+        .lieu-select label::before {
+          background: #8d9781;
+          box-shadow: 0 -1px 1px -0.5px #45403d inset,
+            -0.75px 0 0.75px -0.25px #4f4842 inset,
+            0 0.75px 1px -0.5px #8f867f inset, 0 0 0.5px 0.25px #9d948f,
+            0 0 1px 0.5px #b9b0a9, 0 0 2px 1px #cac1ba;
+          position: absolute;
+          bottom: 218%;
+          width: 30%;
+          height: 1em;
+          box-shadow: inset -1px -1px 2px black;
+          width: 40px;
+        }
+        .lieu-select label::after {
+          visibility: hidden;
+          margin-top: 1px;
+          margin-left: 2px;
+          width: calc(1em - 1px);
+          height: calc(1em - 1px);
+          background-color: var(--cursor);
+          border-radius: 50%;
+        }
+        .lieu-select > input:checked + label::before {
+          background-color: var(--checked);
+          border-color: var(--checked);
+
+          box-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 42px rgb(230, 18, 124),
+            0 0 77px rgb(230, 18, 124), 0 0 100px rgb(230, 18, 124);
+          animation: lumiere 1s infinite linear;
+          transition: 3s, 1s;
+        }
+
+        @keyframes lumiere {
+          0% {
+            text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 42px rgb(230, 18, 124),
+              0 0 77px rgb(230, 18, 124), 0 0 100px rgb(230, 18, 124);
+          }
+          50% {
+            text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 32px rgb(230, 18, 124),
+              0 0 87px rgb(230, 18, 124), 0 0 120px rgb(230, 18, 124);
+          }
+        }
+
+        /* fin du bouton qui coulisse  */
+        .typeVehicule {
+          width: 100%;
+          margin-top: 8%;
+          display: flex;
+          justify-content: space-around;
+        }
+        .labForm {
+          width: 20%;
+          height: 1em;
+        }
+        .ligneLieu {
+          width: 108%;
+          margin-left: -4.5%;
+          background: black;
+          padding: 2px;
+          margin-bottom: 8%;
+        }
+      }
+
+      #depart {
+        font-weight: 700;
+
+        padding: 2%;
+      }
+      #collapse {
+        display: none;
+      }
+      #close {
+        width: 2em;
+        height: 2em;
+      }
+      #lieu-preselect {
+        z-index: 3;
+        display: flex;
+        max-width: 150%;
+        flex-wrap: wrap;
+        padding: 2%;
+      }
+      #btnLieux {
+        box-shadow: 10px 10px 10px #bebebe, -10px -10px 20px #ffffff;
+        background: #e2e2de;
+        width: 80%;
+        position: relative;
+        left: 9.5%;
+        height: 2.5em;
+        font-size: x-large;
+      }
+      #btnLieux:active {
+        background: #e2e2de;
+        box-shadow: none;
+        width: 80%;
+        position: relative;
+        top: -22%;
+        left: 1.5em;
+        height: 2.5em;
+        font-size: x-large;
+      }
+      #btnLieux > a {
+        width: 10em;
+        font-weight: 700;
+        font-size: 1.4em;
+        letter-spacing: 0.2em;
+        color: red;
+        text-decoration: none;
+        text-shadow: -1px -1px 2px black;
+      }
+      #selectionnez {
+        display: none;
+      }
+      #plieu {
+        z-index: 3;
+        margin-bottom: 1em;
+        color: white;
+      }
+      #lieux {
+        z-index: 3;
+        width: 80%;
+        margin-left: -30%;
+        background: var(--fond);
+      }
+      #flou {
+        z-index: 3;
+        width: 100%;
+        height: 150%;
+      }
+      #charactVehicule {
+        z-index: 3;
+        width: 100%;
+        display: flex;
+        height: 18vh;
+        position: relative;
+        bottom: -2em;
+        justify-content: space-around;
+      }
+      #cv-select {
+        z-index: 3;
+        background: linear-gradient(to left, #0a9b8f, #1b8fbc 50%, #85d4f4 75%);
+
+        height: 2.5em;
+        font-size: medium;
+        box-shadow: 2px 3px 10px black;
+      }
+      #cv-select option {
+        z-index: 3;
+        background: lightcyan;
+        border: 1px solid black;
+      }
+      #infoVehicule {
+        display: block;
+        width: 102%;
+        margin-left: -0.5em;
+        z-index: 3;
+        background: #e2e2de;
+      }
+      #votreVehicule {
+        display: none;
+      }
+      #checkboxChoise {
+        z-index: 3;
+        height: 4em;
+        align-items: stretch;
+        width: 50%;
+      }
+      #checkboxChoise > p {
+        display: none;
+      }
+
+      #typeMoteur {
+        width: 80%;
+
+        height: 2em;
+
+        margin-left: 0.5em;
+        display: flex;
+        justify-content: space-between;
+        margin-top: -22%;
+        border: none;
+        z-index: 4;
+    /* width: 100%;
+    margin-top: 0;
+    margin-left: 1em;
+    height: 4em;
+    border-radius: 1em;
+    background: lightcyan;
+    box-shadow: 2px 3px 10px black;
+    padding: 4em;
+    color: #1b8fbc; */
+      }
+      th {
+        box-shadow: 10px 10px 10px #bebebe, -10px -10px 20px #ffffff !important;
+        color: red;
+      }
+      th,
+      td {
+        font-weight: 800;
+        position: relative;
+        z-index: 3;
+
+        text-align: center;
+        border: none;
+        box-shadow: 2px 3px 10px black;
+        border-radius: 0.5em;
+      }
+      #tableauxFraisKm {
+        background: #e2e2de;
+        box-shadow: none;
+        height: 2em;
+        border-spacing: 0.5em;
+        width: 100%;
+
+        border: none;
+      }
+      tbody tr:nth-child(odd) {
+        height: 2em;
+        font-size: large;
+        font-weight: 600;
+        background: #e2e2de;
+        color: #85d4f4;
+        z-index: 6;
+      }
+      tbody tr:nth-child(odd):active {
+        background: #e2e2de;
+        z-index: 6;
+      }
+      tbody tr:nth-child(even) {
+        z-index: 3;
+        font-size: large;
+        font-weight: 600;
+        background: #e2e2de;
+        color: #1b8fbc;
+      }
+      tbody tr:nth-child(even):active {
+        z-index: 6;
+        background: #e2e2de;
+      }
+
+      .inject-Traj {
+        position: relative;
+        z-index: 3;
+        font-family: "regular", sans-serif;
+        border: none;
+        font-size: 1.2em;
+        height: 4em;
+        font-size: 1em;
+        font-weight: 600;
+        max-width: 24em;
+      }
+      #charactVehicule > label {
+        z-index: 3;
+        display: none;
+      }
+      #electrique {
+        vertical-align: bottom;
+      }
+
+      #typeMoteur,
+      input {
+        position: relative;
+        bottom: -24%;
+        left: -0.5em;
+        padding: 0.5em;
+        z-index: 2;
+      }
+      #totalRemboursement {
+        text-align: center;
+        background: green;
+        width: 25%;
+        height: 5vh;
+        align-self: end;
+        padding-top: 4%;
+        color: white;
+      }
+      /* input des cheveaux */
+      .btnType {
+        box-shadow: 10px 10px 10px #bebebe, -10px -10px 20px #ffffff;
+        width: 40%;
+        height: 8vh;
+        border-radius: 50%;
+        position: relative;
+        top: 94%;
+      }
+
+      .btnType input[type="radio"] {
+        position: relative;
+        width: 70%;
+        border: 1px 1px 2x black;
+        left: 10%;
+        
+      }
+      #e {
+        position: relative;
+        top: 4%;
+        left: 22%;
+      }
+      #t {
+        position: relative;
+
+        left: 30%;
+      }
+
+      h4 {
+        display: none;
+      }
+
+      .info {
+        position: relative;
+        z-index: 3;
+        width: 94%;
+        left: 0.5%;
+        margin-top: 14%;
+
+        padding: 0.5em;
+        border-radius: 1em;
+        background: #e2e2de;
+        box-shadow: rgb(56, 57, 58, 0.5) 3px 3px 6px 0px inset,
+          rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+      }
+      .info strong {
+        z-index: 3;
+        color: red;
+      }
+      .fieldset {
+        width: 74%;
+        height: 6vh;
+        border-radius: 1em;
+
+        position: relative;
+        left: 110%;
+        top: -22%;
+        z-index: 3;
+      }
+      #km-progress {
+        width: 5em;
+        margin-left: 0;
+        position: relative;
+
+        left: 5%;
+      }
+      .kmEnCours {
+        width: 4em;
+        margin-left: 0;
+      }
+      #kilometre {
+        font-size: 1.5em;
+        font-weight: 700;
+        width: 4em;
+        padding: 0.5em;
+        white-space: nowrap;
+      }
+      .km-parcourus {
+        width: 70%;
+        margin-left: 0;
+      }
+
+      main {
+        z-index: 8;
+      }
+      aside {
+        z-index: 3;
+      }
+      footer {
+        background: #e2e2de;
+        z-index: 3;
+        margin-top: -3%;
+      }
+      .inject-Traj div {
+        margin-left: 1em;
+        margin-right: 1em;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+      }
+
+      tbody {
+        display: none;
+      }
+      th {
+        width: 8em;
+      }
+      #kmSurCent {
+        position: relative;
+        left: -0.5em;
+        color: #215198;
+        text-align: center;
+        height: 1em;
+        width: 7em;
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: fantasy;
+        text-shadow: -1px -1px black;
+        font-size: 90%;
+      }
+      #remboursement {
+        border-top: 1px solid red;
+      }
+    </style>
+  </head>
+
+  <body>
+    
+    <header>
+      <h1>calculateur de frais kilometrique</h1> 
+    </header>
+    <nav>
+      <p id="plieu">
+        <div id="selectionnez">
+          selectionnez
+        </div>
+        
+        <button id="btnLieux" onclick="formLieux()">
+          <a href="#">VOS LIEUX</a>
+        </button>
+        
+      </p>
+      <div id="lieu-preselect"></div>
+      <div id="trajet">
+        <div id="depart">Vos Trajets :</div>
+        <div id="itineraire"></div>
+        <div class="kmEnCours">
+          <p id="kilometre"></p>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <div id="infoVehicule">
+          <form action="" id="charactVehicule">
+            <div id="collapse">
+              <label for="NombreCv">vos chevaux adminitratif</label>
+              <select name="cv" id="cv-select">
+                <option value="3">choisissez vos chevaux</option>
+                <option value="3">3cv ou moins</option>
+                <option value="4">4cv</option>
+                <option value="5">5cv</option>
+                <option value="6">6cv</option>
+                <option value="7">7cv ou plus</option></select
+              ><br />
+            </div>          
+            <div id="checkboxChoise">
+              <p for="typeVehicule">votre type de véhicule</p>
+              <br />
+              <div id="typeMoteur">
+                <div class="btnType">
+                  <input type="radio" id="electrique" name="typeCar" value="1" />
+                  <label for="elec"></label>
+                  <img id="e" style="width: 2em; " src="./logo-elec.png" alt="elec">
+                </div>
+                <br />
+                <div class="btnType">
+                  <input
+                  type="radio"
+                  id="therm/Hybrid"
+                  name="typeCar"
+                  value="0"
+                  checked
+                  />
+                  <label for="therm"></label>
+                  <img id="t" style="width: 4em; margin-left: -1em; margin-top: -0.2em;" src="./voituretherm.png" alt="therm">
+                </div>
+              </div>
+              <div class="fieldset">
+                <div class="km-parcourus">                 
+                  <div id="kmProgress">
+                    <p id="kmSurCent"></p>
+                    <progress id="km-progress" max="200"></progress>
+                  </div>       
+                  <div class="batterie1">""</div>
+                  <div class="batterie2">""</div>
+                  <div class="batterie3">""</div>
+                </div>                        
+                <div class=""></div>
+              </div>
+            </div>
+            <div id="totalRemboursement"></div>                    
+            <div id="votreVehicule">
+               <p>votre véhicule est un </p>
+               <div id="votreType">therm/Hybrid</div>
+               <p>" de "</p>
+               <div id="vosCv">3</div>
+               <p>" CV.</p>
+            </div>           
+        </form>
+        <aside>
+          <h4>tableaux de frais kilomtrique</h4>
+          <table id="tableauxFraisKm">
+            <thead>
+              <tr id="titreTableau" onclick="vuTableauCv()">
+                <th>Puissance administrative (en CV)</th>
+                <th>
+                  Distance (d) jusqu'à <br />
+                  5 000 km
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <div>
+                <tr class="cvNumber" id="3">
+                  <td>3 CV et moins</td>
+                  <td>d x 0,529</td>
+                </tr>
+
+                <tr class="cvNumber" id="4">
+                  <td>4 CV</td>
+                  <td>d x 0,606</td>
+                </tr>
+
+                <tr class="cvNumber" id="5">
+                  <td>5 CV</td>
+                  <td>d x 0,636</td>
+                </tr>
+
+                <tr class="cvNumber" id="6">
+                  <td>6 CV</td>
+                  <td>d x 0,665</td>
+                </tr>
+
+                <tr class="cvNumber" id="7">
+                  <td>7 CV et plus</td>
+                  <td>d x 0,697</td>
+                </tr>
+              </div>
+            </tbody>
+          </table>
+        </aside>
+      </div>
+
+      <p class="info">
+        <strong>À noter </strong>: Depuis 2021, le montant des frais de
+        déplacement calculés à partir de ces barèmes est
+        <strong
+          >majoré de 20 % <br />
+          pour les véhicules électriques.</strong
+        >
+        <svg
+          id="prise"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 576 512"
+        >
+          <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <path
+            d="M96 0C78.3 0 64 14.3 64 32v96h64V32c0-17.7-14.3-32-32-32zM288 0c-17.7 0-32 14.3-32 32v96h64V32c0-17.7-14.3-32-32-32zM32 160c-17.7 0-32 14.3-32 32s14.3 32 32 32v32c0 77.4 55 142 128 156.8V480c0 17.7 14.3 32 32 32s32-14.3 32-32V412.8c12.3-2.5 24.1-6.4 35.1-11.5c-2.1-10.8-3.1-21.9-3.1-33.3c0-80.3 53.8-148 127.3-169.2c.5-2.2 .7-4.5 .7-6.8c0-17.7-14.3-32-32-32H32zM432 512a144 144 0 1 0 0-288 144 144 0 1 0 0 288zm47.9-225c4.3 3.7 5.4 9.9 2.6 14.9L452.4 356H488c5.2 0 9.8 3.3 11.4 8.2s-.1 10.3-4.2 13.4l-96 72c-4.5 3.4-10.8 3.2-15.1-.6s-5.4-9.9-2.6-14.9L411.6 380H376c-5.2 0-9.8-3.3-11.4-8.2s.1-10.3 4.2-13.4l96-72c4.5-3.4 10.8-3.2 15.1 .6z"
+          />
+        </svg>
+      </p>
+    </main>
+    <div id="flou">
+      <form action="" id="lieux">
+        <div id="closeCroix">
+          <button id="close" onclick="closeForm()"><a href="#">X</a></button>
+        </div>
+        <div class="ligneLieu">
+          <div class="lieu-select">
+            
+              <input
+              type="checkbox"
+              name="ifas-EVA"
+              id="ifas-EVA"
+              value="28 Rue Walter Poupot, 33000 Bordeaux"
+            />
+            <label class="labForm" for="ifas-EVA">ifas EVA-Santé</label>
+            
+            
+          </div>
+          <div class="lieu-select">
+           
+              <input
+              type="checkbox"
+              name="domicile"
+              id="domicile"
+              value="30 Rue des Lauriers, 33440 Saint-Louis-de-Montferrand"
+            />
+            <label class="labForm" for="domicile">domicile</label>
+            
+            
+          </div>
+        </div>
+        <div class="ligneLieu">
+          <div class="lieu-select">
+           
+              <input
+              type="checkbox"
+              name="les-flots-inicea"
+              id="les-flots-inicea"
+              value="257 Rte de Toulouse, 33400 Talence"
+            />
+            <label class="labForm" for="les-flots-inicea">clinic les flots l'inicea</label>
+            
+            
+          </div>
+          <div class="lieu-select">
+            
+              <input
+              type="checkbox"
+              name="adapei33-FAM"
+              id="adapei33-FAM"
+              value="98 Rue Alexis Labro, 33130 Bègles"
+            />
+            <label class="labForm" for="adapei33-FAM">adapei 33 FAM de bègles</label>
+            
+            
+          </div>
+        </div>
+        <div class="ligneLieu">
+          <div class="lieu-select">
+            <input
+              type="checkbox"
+              name="LADAPT-château-rauzé"
+              id="LADAPT-château-rauzé"
+              value="26 Av. de Rauzé, 33360 Cenac"
+            />
+            <label class="labForm" for="LADAPT-château-rauzé">LADAPT château rauzé</label>
+          
+
+            
+          </div>
+          
+          <div class="lieu-select">
+            
+              <input
+              type="checkbox"
+              name="clinic-bethanie"
+              id="clinic-bethanie"
+              value="144 Av. Roul, 33400 Talence"
+            />
+            <label class="labForm" for="clinic-bethanie">clinic béthanie</label>
+            
+          </div>
+        </div>
+        <div class="ligneLieu">
+          <div class="lieu-select"></div>
+          <div class="lieu-select"></div>
+        </div>
+      </form>
+    </div>
+    <footer>
+      
+    </footer>
+
+    <script>
+      // Récupérer toutes les cases à cocher et le conteneur dans le DOM
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      console.log(checkboxes);
+      var cvSeletions = document.querySelectorAll('tr[class="cvNumber"]');
+      console.log(cvSeletions);
+      var boutonsRadios = document.getElementsByName("typeCar");
+      var container = document.getElementById("lieu-preselect");
+      var containTraj = document.getElementById("itineraire");
+      var progressBar = document.getElementById("km-progress");
+      var newButtonCalendar = document.createElement("bouton");
+      var totalkm = 0;
+      //nombre de kilometre entre les deux derniere distance selectionné
+      var tempKm = null;
+      //chaine de caractere qui designe les deux dernier lieux clické
+      var cleDistance = null;
+      //stock les cv entrées
+      var resultatCv = 3;
+      //stock le bolleen electrique ou non
+      var electriqueSelected = null;
+      //le
+      var resultatElec = null;
+      //le resultat de la fonction calculRemboursement()
+      var resultatRemb = 0;
+      //tableaux de donneées
+      var parcours = [];
+      var ordreClics = 1; // Variable pour suivre l'ordre des clics
+      var ordreClic = 1;
+      var dataCheckBtn1 = null;
+      var dataCheckBtn2 = null;
+
+      //objet qui stock la distance entre deux lieux
+      var distance = {
+  "domicile-les-flots-inicea": 20.9, //
+  "domicile-adapei33-FAM": 24.4, //
+  "domicile-LADAPT-château-rauzé": 30.4, //
+  "domicile-clinic-bethanie": 24.4, //
+  "domicile-ifas-EVA": 20.0, //
+  "domicile-TCA latresne": 25.7,
+  "ifas-EVA-domicile": 20.8, //
+  "ifas-EVA-les-flots-inicea": 3.6, //
+  "ifas-EVA-adapei33-FAM": 5.9, //
+  "ifas-EVA-LADAPT-château-rauzé": 17.4, //
+  "ifas-EVA-clinic-bethanie": 3.5, //
+  "ifas-EVA-TCA latresne": 15.4,
+  "les-flots-inicea-domicile": 20.9, //
+  "les-flots-inicea-ifas-EVA": 3.7, //
+  "les-flots-inicea-adapei33-FAM": 2.6, //
+  "les-flots-inicea-LADAPT-château-rauzé": 15.1, //
+  "les-flots-inicea-clinic-bethanie": 2.7, //
+  "les-flots-inicea-TCA latresne": 12.4,
+  "adapei33-FAM-domicile": 23.6, //
+  "adapei33-FAM-ifas-EVA": 6.0, //
+  "adapei33-FAM-les-flots-inicea": 2.6, //
+  "adapei33-FAM-LADAPT-château-rauzé": 15.1, //
+  "adapei33-FAM-clinic-bethanie": 4.8, //
+  "adapei33-FAM-TCA latresne": 12.4,
+  "LADAPT-château-rauzé-domicile": 29.7, //
+  "LADAPT-château-rauzé-ifas-EVA": 17.2, //
+  "LADAPT-château-rauzé-les-flots-inicea": 16.2, //
+  "LADAPT-château-rauzé-adapei33-FAM": 14.7, //
+  "LADAPT-château-rauzé-clinic-bethanie": 18.3, //
+  "LADAPT-château-rauzé-TCA latresne": 4.3,
+  "clinic-bethanie-domicile": 28.8, //
+  "clinic-bethanie-ifas-EVA": 4.9, //
+  "clinic-bethanie-les-flots-inicea": 2.6, //
+  "clinic-bethanie-adapei33-FAM": 4.7, //
+  "clinic-bethanie-LADAPT-château-rauzé": 20.9, //
+  "clinic-bethanie-TCA latresne": 18.3,
+  "TCA latresne-domicile": 24.4,
+  "TCA latresne-ifas-EVA": 13.6,
+  "TCA latresne-les-flots-inicea": 12.7,
+  "TCA latresne-adapei33-FAM": 11.1,
+  "TCA latresne-LADAPT-château-rauzé": 4.3,
+  "TCA latresne-clinic-bethanie": 17.6,
+};
+      //PROGRAMME PRINCIPAL
+      // Ajouter un écouteur d'événement pour détecter quand le DOM est prêt
+      document.addEventListener("DOMContentLoaded", function () {
+        // Appeler la fonction qui observe le conteneur des boutons
+        observeContainer();
+      });
+
+      // Parcourir toutes les cases à cocher
+      checkboxes.forEach(function (checkbox) {
+        // Ajouter un écouteur d'événement pour chaque case à cocher
+        checkbox.addEventListener("change", function () {
+          if (checkbox.checked) {
+            var newName = "" + checkbox.id;
+            console.log(newName);
+
+            // Créer un nouvel élément et lui attribuer un nom
+            var newElement = document.createElement("button");
+
+            newElement.textContent = newName;
+
+            // Ajouter une classe pour identifier l'élément associé à la case à cocher
+            newElement.classList.add("inject-lieu");
+
+            // Ajouter un attribut data-checkbox avec la valeur de l'id de la case à cocher
+            newElement.setAttribute("data-checkbox", checkbox.id);
+            // ajouter un attribut data-lieu avec la valeur de la value de la case à cocher
+            newElement.setAttribute("data-lieu", checkbox.value);
+
+            // Ajouter le nouvel élément dans le conteneur
+            container.appendChild(newElement);
+          } else {
+            // Supprimer l'élément correspondant si la case à cocher est décochée
+            var dynamicElement = container.querySelector(
+              '.inject-lieu[data-checkbox="' + checkbox.id + '"]'
+            );
+            console.log("dynamic =" + dynamicElement);
+            if (dynamicElement) {
+              container.removeChild(dynamicElement);
+            }
+          }
+        });
+      });
+
+      cvChange();
+
+      function formLieux() {
+        flou.style.transform = "translateY(10px)";
+      }
+      function closeForm() {
+        flou.style.transform = "translateY(-2000px)";
+      }
+
+      //ajouter un ecouteur d'evenement sur mes boutons créés
+      function addEventListenersToButtons() {
+        // Récupérer tous les boutons créés avec la classe inject-lieu
+        var buttons = document.querySelectorAll(".inject-lieu");
+
+        buttons.forEach(function (button) {
+          // Supprimer les écouteurs d'événements existants
+          button.removeEventListener("click", handleClick);
+          // Ajouter un nouvel écouteur d'événement
+          button.addEventListener("click", handleClick);
+        });
+      }
+
+      function handleClick() {
+        if (ordreClics === 1) {
+          // Récupérer la valeur du premier clic et l'assigner à data-checkbox1
+          dataCheckBtn1 = this.getAttribute("data-checkbox");
+          this.setAttribute("data-checkbox1", dataCheckBtn1);
+          ordreClics = 2; // Mettre à jour l'ordre des clics
+
+          console.log("Premier clic : " + dataCheckBtn1);
+        } else if (ordreClics === 2) {
+          // Récupérer la valeur du deuxième clic et l'assigner à data-checkbox2
+          dataCheckBtn2 = this.getAttribute("data-checkbox");
+          this.setAttribute("data-checkbox2", dataCheckBtn2);
+          ordreClics = 1; // Réinitialiser l'ordre des clics
+
+          console.log("Deuxième clic : " + dataCheckBtn2);
+
+          // Maintenant que nous avons les deux valeurs, nous pouvons comparer et effectuer les actions nécessaires
+          comparerChaines(dataCheckBtn1, dataCheckBtn2);
+          newButtonCalendar.textContent = "ajouter au calendrier";
+          newButtonCalendar.classList.add("calendrier");
+          containTraj.appendChild(newButtonCalendar);
+        }
+      }
+      //compare la combinaison a mon objet
+      function comparerChaines(chaine1, chaine2) {
+        // Formater les valeurs pour former une clé
+        cleDistance = chaine1 + "-" + chaine2;
+        console.log("cleDistance =" + cleDistance);
+
+        // Vérifier si la clé existe dans le tableau distance
+        if (distance.hasOwnProperty(cleDistance)) {
+          // valeurchaine stock mes km entre 2 parcours
+
+          parcours.push(cleDistance);
+          afficheParcours(chaine1, chaine2);
+        } else {
+          console.log(
+            "La combinaison des chaînes n'existe pas dans l'objet distance."
+          );
+        }
+      }
+      //Additionne les km de chaque parcours
+      function addkilometre(nouvellleValeur) {
+        return (totalkm += nouvellleValeur).toFixed(2) + "km";
+      }
+
+      function modifierParcours() {
+        //recuperer le parcours a modifier dans le tableau parcours
+        // parcours[1]
+        //modifier le parcours par les nouvelles valeurs
+      }
+
+      function afficheParcours(ch1, ch2) {
+        var temporaryTraj = parcours[parcours.length - 1];
+        //je rentre dans parcours[] et passe dans chaque valeur
+        tempKm = distance[temporaryTraj];
+
+        //j'englobe dans la variable tempKm la distance en km correspondant au tableau distance[] pour ma valeur selectionnée
+        kilometre.innerHTML = addkilometre(tempKm);
+        kmSurCent.innerHTML = totalkm.toFixed(2) / 2 + "= 100%";
+
+        var newTraj = document.createElement("button");
+        var dep = document.createElement("div");
+        dep.setAttribute("id", dataCheckBtn1);
+
+        var arr = document.createElement("div");
+        arr.setAttribute("id", dataCheckBtn2);
+        var kmTraj = document.createElement("div");
+        dep.textContent = ch1;
+        arr.textContent = ch2;
+        kmTraj.textContent = tempKm + " Km";
+        newTraj.appendChild(dep);
+        newTraj.appendChild(kmTraj);
+        newTraj.appendChild(arr);
+        // Ajouter une classe pour identifier l'élément associé à la case à cocher
+        newTraj.classList.add("inject-Traj");
+        //ajouter la valeur a la bar de progression
+        progressBar.setAttribute("value", totalkm);
+
+        // Ajouter le nouvel élément dans le conteneur
+        containTraj.appendChild(newTraj);
+        //cleDistance + "=" + valeurChaine + "km";
+        calculRemboursement();
+      }
+
+      function cvChange() {
+        //Si cv change
+        cvSeletions.forEach(function (cvselect) {
+          cvselect.addEventListener("click", (event) => {
+            resultatCv = parseInt(cvselect.id);
+            calculRemboursement(resultatCv);
+          });
+        });
+      }
+
+      boutonsRadios.forEach(function (boutonsRadio) {
+        boutonsRadio.addEventListener("change", () => {
+          // Vérifiez si le bouton radio est sélectionné
+          if (boutonsRadio.checked) {
+            // Obtenez la valeur de l'option sélectionnée
+            var valeurSelectionnee = boutonsRadio.id;
+            electriqueSelected = boutonsRadio.value;
+            calculRemboursement();
+            votreType.innerHTML = valeurSelectionnee;
+          }
+        });
+      });
+
+      function CalcByTx(tx) {
+        var fraiKm = totalkm * tx;
+        return fraiKm;
+      }
+
+      // calcul les frais kilometrique
+      function calculRemboursement() {
+        switch (resultatCv) {
+          case 3:
+            resultatRemb = CalcByTx(0.529);
+            break;
+          case 4:
+            resultatRemb = CalcByTx(0.606);
+            break;
+          case 5:
+            resultatRemb = CalcByTx(0.636);
+            break;
+          case 6:
+            resultatRemb = CalcByTx(0.665);
+            break;
+          case 7:
+            resultatRemb = CalcByTx(0.697);
+            break;
+        }
+        if (electriqueSelected == 1) {
+          resultatRemb = resultatRemb * 1.2;
+        }
+        totalRemboursement.innerHTML = resultatRemb.toFixed(2) + "€";
+        return resultatRemb;
+      }
+
+      // creer une fonction qui observe les changement dans une div
+      function observeContainer() {
+        //creer un objet MutationObserver qui prendr en paramétre une fonction a  executer quand un changement se produit
+        var observer = new MutationObserver(function (mutations) {
+          //parcours les mutations
+          mutations.forEach(function (mutation) {
+            //verifier si la mutation est de type ajout d'un enfant
+            if (
+              mutation.type === "childList" &&
+              mutation.addedNodes.length > 0
+            ) {
+              //appeler la fonction qui ajoute un ecouter aux boutons
+              addEventListenersToButtons();
+            }
+          });
+        });
+        // Définir les options d'observation (ici on observe seulement l'ajout d'enfants)
+        var config = { childList: true };
+        // Lancer l'observation du conteneur avec les options définies
+        observer.observe(container, config);
+      }
+
+      var afficheTableau = document.querySelector("tbody");
+      function vuTableauCv() {
+        if (ordreClic === 1) {
+          afficheTableau.style.transitionDuration = "1s";
+          afficheTableau.style.display = "block";
+          afficheTableau.style.opacity = "1";
+          afficheTableau.style.height = "14em";
+          afficheTableau.style.width = "204%";
+          // afficheTableau.style.transitionDelay = "1s";
+
+          ordreClic = 2;
+        } else if (ordreClic === 2) {
+          afficheTableau.style.display = "block";
+          afficheTableau.style.opacity = "0";
+          afficheTableau.style.height = "0em";
+          afficheTableau.style.transitionDuration = "1s";
+          afficheTableau.style.transitionDelay = "0s";
+          ordreClic = 1;
+        }
+      }
+
+      /* function compareDeuxLieux(lieu1, lieu2){
+      } */
+
+      /* cvSelection.onchange = function () {
+        totalRemboursement.innerHTML = calculRemboursement(
+          cvSelection.value,
+          elecSelection.value
+        );
+      };
+      elecSelection.onchange = function () {
+        totalRemboursement.innerHTML = calculRemboursement(
+          cvSelection.value,
+          elecSelection.value
+        );
+      };
+
+
+      /* function handleClick() {
+        // Récupérer le data-checkbox du bouton
+        var dataCheckBtn = this.getAttribute("data-checkbox");
+
+        // Vérifier si le tableau distance n'est pas vide
+        if (Object.keys(distance).length > 0) {
+          var dernierLieu = parcours[parcours.length - 1];
+          var cleDistance = dernierLieu + "-" + dataCheckBtn;
+
+          // Vérifier si la distance entre les lieux est disponible dans le tableau distance
+          if (distance.hasOwnProperty(cleDistance)) {
+            parcours.push(dataCheckBtn);
+            depart.innerHTML = "Départ: " + parcours.join(", ");
+          } else {
+            alert("La distance entre ces deux lieux n'est pas disponible.");
+          }
+        } else {
+          parcours.push(dataCheckBtn);
+          depart.innerHTML = "Départ: " + parcours;
+        }
+      } */
+
+      /* // Définir une fonction qui gère le clic sur les boutons
+      function handleClick() {
+        // Récupérer le data-checkbox du bouton
+        var dataCheckBtn = this.getAttribute("data-checkbox");
+      //condition le tableau ne doit pas etre vide
+        if (parcours.length > 0) {
+          var dernierLieu = parcours;
+
+          var cleDistance = dernierLieu + " - " + dataCheckBtn;
+          console.log(cleDistance);
+         // var distanceParcourue = distance[cleDistance];
+
+          if (distanceParcourue) {
+            parcours.push(dataCheckBtn);
+            depart.innerHTML = "Départ:" + parcours.join(", ");
+          } else {
+            alert("La distance entre ces deux lieux n'est pas disponible.");
+          }
+        } else {
+          parcours.push(dataCheckBtn);
+          depart.innerHTML = "Départ:" + parcours;
+        }
+      }
+       */
+    </script>
+    <script src="frais.js"></script>
+  </body>
+</html>
